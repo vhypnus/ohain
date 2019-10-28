@@ -11,9 +11,11 @@ import java.lang.reflect.Method;
  * @email Yuewen.Huang@geely.com
  * @date 2019/10/23
  */
-public class DataFactory {
+public class DataFactory{
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataFactory.class) ;
+
 
     public static DataFactory instance = new DataFactory() ;
 
@@ -21,7 +23,10 @@ public class DataFactory {
         return instance ;
     }
 
-    public <T> T manu(Class<T> clazz) {
+    private DataFactory() {
+    }
+
+    public <T> T get(Class<T> clazz) {
         try{
             T instance = clazz.getDeclaredConstructor().newInstance() ;
             Field[] fields = clazz.getDeclaredFields() ;
@@ -32,7 +37,7 @@ public class DataFactory {
                 Object value = null ;
 
                 if (type.getName().equals("java.lang.String")){
-                    value = new StringData().generate() ;
+                    value = getString() ;
                 }else{
 //                    value = manu(type);
                 }
@@ -52,6 +57,14 @@ public class DataFactory {
         } catch(Exception e) {
             throw new RuntimeException(e.getMessage(),e) ;
         }
+    }
+
+    public String getString(){
+        return null ;
+    }
+
+    public Integer getInteger(){
+        return null ;
     }
 
 
