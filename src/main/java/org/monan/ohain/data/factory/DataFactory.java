@@ -1,4 +1,4 @@
-package org.monan.ohain.data;
+package org.monan.ohain.data.factory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +16,10 @@ public class DataFactory{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataFactory.class) ;
 
-
     public static DataFactory instance = new DataFactory() ;
 
     public static DataFactory getInstance(){
         return instance ;
-    }
-
-    private DataFactory() {
     }
 
     public <T> T get(Class<T> clazz) {
@@ -37,7 +33,7 @@ public class DataFactory{
                 Object value = null ;
 
                 if (type.getName().equals("java.lang.String")){
-                    value = getString() ;
+                    value = new Strings().get() ;
                 }else{
 //                    value = manu(type);
                 }
@@ -68,8 +64,4 @@ public class DataFactory{
     }
 
 
-    public String toJson(){
-
-        return null ;
-    }
 }
