@@ -1,5 +1,6 @@
 package org.monan.ohain.proxy;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -14,18 +15,38 @@ import java.lang.reflect.Parameter;
  */
 public class Proxy {
 
-    public Class get(Class source){
+    public Class getProxy(Class source){
         ClassPool cp = ClassPool.getDefault() ;
 
         String className = source.getName()+"$Proxy" ;
         CtClass ctClass = cp.makeClass(className) ;
 
         Method[] methods = source.getDeclaredMethods() ;
-        for(Method method : methods){
-//            method.getReturnType()
-//            CtMethod ctMethod = CtMethod.make("")
+        for(Method method : methods) {
+            String src = "" ;
+            if ("void".equals(method.getReturnType().getSimpleName())){
+
+            } else {
+
+            }
+
+            CtMethod cm = null;
+            try {
+                cm = CtMethod.make("",ctClass);
+                ctClass.addMethod(cm);
+            } catch (CannotCompileException e) {
+                throw new RuntimeException(e) ;
+            }
+
         }
-        return null ;
+
+        Class clazz = null ;
+        try {
+             clazz = ctClass.toClass() ;
+        } catch (CannotCompileException e) {
+            throw new RuntimeException(e) ;
+        }
+        return clazz ;
     }
 
 
