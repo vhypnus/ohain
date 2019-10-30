@@ -13,7 +13,11 @@ public class ExampleServiceImpl implements ExampleService {
     private ExampleMapper exampleMapper ;
 
 
-    public static void main(){
+    public void say(){
+
+    }
+
+    public static void sayHi(){
 
     }
 }

@@ -11,11 +11,12 @@ import java.lang.reflect.Method;
  * @email Yuewen.Huang@geely.com
  * @date 2019/10/23
  */
-public class DataFactory {
+public class DataFactory{
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataFactory.class) ;
 
-    private static DataFactory instance = new DataFactory() ;
+    public static DataFactory instance = new DataFactory() ;
 
     public static DataFactory getInstance(){
         return instance ;
@@ -52,6 +53,14 @@ public class DataFactory {
         } catch(Exception e) {
             throw new RuntimeException(e.getMessage(),e) ;
         }
+    }
+
+    public String getString(){
+        return null ;
+    }
+
+    public Integer getInteger(){
+        return null ;
     }
 
 
