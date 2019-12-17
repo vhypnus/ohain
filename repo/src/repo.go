@@ -4,6 +4,8 @@ import "os"
 
 struct Repo interface {
 
+	func get(repoCode string ,fp string) string 
+
 	func sync() 
 
 	//fp -> filepath
@@ -33,7 +35,13 @@ func (t * Repo) GitDiff(repoCode string) string{
 }
 
 // ignoreOutputFlag是否需要
-func exec(args,ignoreOutputFlag){
+func Exec(args,ignoreOutputFlag) string {
 
 }
+
+func AsynExec(args){
+
+}
+
+
 

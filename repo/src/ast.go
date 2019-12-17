@@ -1,6 +1,13 @@
-package core
+/*
+ * - 维护同一个文件内引用依赖关系图
+ * - 维护同一个工程下文件与文件的关系<>变更时触发</>
+ * - 维护package之间的关系<>常驻内存</>
+ * - 维护工程间的依赖关系 <>常驻内存</>
+ */
+
+package repo
 
 struct ast interface {
 
-	func 
+	//
 }
