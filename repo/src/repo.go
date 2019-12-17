@@ -2,6 +2,10 @@ package core
 
 import "os"
 
+const (
+	DEPENDECY = 1 
+)
+
 struct Repo interface {
 
 	func get(repoCode string ,fp string) string 
