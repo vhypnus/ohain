@@ -1,25 +1,32 @@
+/*
+ * fileId  example java :package +className
+ *
+ *
+ */
+
 package core
 
-import "os"
+import (
+	"os"
+	"io/ioutil"
+)
 
-struct Repo interface {
+const(
+	ROOT_PATH = ""
 
-	func get(repoCode string ,fp string) string 
+	repoDict = {}
+)
 
-	func sync() 
 
-	//fp -> filepath
-	func diff(repoCode string,fp string)
+type Command interface {
 
+	func Execute(args ... string)
 }
 
-//
-repoDict = {
-
-}
 
 // 同步
-func (t *Repo) GitSync(repoCode string){
+// return path
+func (t *Command) Sync(repoCode string) string{
 	// repoCode --> {repoUrl,repoPath,repoDir}
 	repodir = repoUrl()
 
@@ -30,18 +37,23 @@ func (t *Repo) GitSync(repoCode string){
 }
 
 // output string
-func (t * Repo) GitDiff(repoCode string) string{
+func (t *Command) Diff(srcCommit string,targetCommit string) string{
 
 }
 
-// ignoreOutputFlag是否需要
-func Exec(args,ignoreOutputFlag) string {
+
+func ReadFile(fileId string) string {
+	// get filepath by fileId
+
+	var content 
+
+
 
 }
 
-func AsynExec(args){
 
-}
+
+
 
 
 
