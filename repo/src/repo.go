@@ -11,8 +11,16 @@ import (
 	"io/ioutil"
 )
 
+<<<<<<< HEAD
 const(
 	ROOT_PATH = ""
+=======
+const (
+	DEPENDECY = 1 
+)
+
+struct Repo interface {
+>>>>>>> e5908ba09c2523fe91561d83c1702fa236bcda55
 
 	repoDict = {}
 )

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package repo
 
 import (
@@ -8,6 +9,7 @@ import (
 // 关系类型
 const (
 	IMPORT = 1 
+
 	DECLARE = 1 >> 1
 	NEW = 1 >> 2
 	USE =  1 >> 3
