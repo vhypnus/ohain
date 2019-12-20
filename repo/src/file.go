@@ -20,7 +20,7 @@ const (
  *
  *
  */
-struct File {
+type File struct{
 
 	fileId string
 
@@ -28,6 +28,11 @@ struct File {
 
 	// block format (level,start,end)
 	blocks array
+}
+
+
+func (f File) NewFile(filepath string) File {
+
 }
 
 

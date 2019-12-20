@@ -21,6 +21,8 @@ type Repo struct {
 	// unique
 	url string
 
+	path string
+
 	projectName string
 
 }
@@ -34,30 +36,14 @@ func NewRepo(url string,srcCommit string,targetCommit string) Repo{
 // return path
 // repoCode 由group + service组成
 func (r Repo) Sync() bool{
-	path = ROOT + os.PathSeparator +r.projectName
-	log.println
-	exists,err := PathExists(path) 
-	if !exists {
-		os.Mkdir(path)
-		exec.Comman("git clone ",path)
-		exec.Comman()
-	}
-	//exec sych.sh
-	var cmd = exec.Command(repoUrl,)
-	cmd.Run()
-	cmd.stdout
-}
-
-
-func PathExists(path string) (bool, error) {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true, nil
-	}
-	if os.IsNotExist(err) {
-		return false, nil
-	}
-	return false, err
+	// get project path by r.url
+	projectPath = ROOT + os.PathSeparator +r.projectName
+	
+	// 
+	scriptPath = 
+	content := exec(scriptpath,projectPath) 
+	
+	return content
 }
 
 
@@ -68,8 +54,10 @@ func (r Repo) Diff(srcCommit string,targetCommit string) []string{
 
 
 // 
-func (r Repo) ReadFile(repoCode string,fileId string) string {
-	// get filepath by fileId
+func (r Repo) ReadFile(filepath string) string {
+	path = ROOT +os.PathSeparator+filepath
+
+	os.Open
 
 	var content 
 
@@ -78,7 +66,21 @@ func (r Repo) ReadFile(repoCode string,fileId string) string {
 
 // 缓存文件id与文件路径的关系
 
+func (r Repo) exec(scriptpath string,args...string) string{
+	cmd := exec.Command(scriptpath,args)
 
+	var out bytes.Buffer
+    cmd.Stdout = &out
+
+	err := cmd.Run()
+
+	if err != nil{
+		panic(err)
+	} 
+
+	output := out.String()
+	return output
+}
 
 
 
