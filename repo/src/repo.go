@@ -25,6 +25,8 @@ type Repo struct {
 
 	projectName string
 
+	
+
 }
 
 
@@ -54,12 +56,13 @@ func (r Repo) Diff(srcCommit string,targetCommit string) []string{
 
 
 // 
-func (r Repo) ReadFile(filepath string) string {
+func (r Repo) ReadFile(filepath string) File {
 	path = ROOT +os.PathSeparator+filepath
 
 	os.Open
 
 	var content 
+	return nil
 
 }
 
@@ -81,6 +84,8 @@ func (r Repo) exec(scriptpath string,args...string) string{
 	output := out.String()
 	return output
 }
+
+
 
 
 

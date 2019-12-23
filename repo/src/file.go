@@ -28,11 +28,19 @@ type File struct{
 
 	// block format (level,start,end)
 	blocks array
+
+	//notes format (start,end)
+	notes array  
 }
 
 
 func (f File) NewFile(filepath string) File {
 
+}
+
+
+func (f File) GetBlock(int level) {
+	
 }
 
 
