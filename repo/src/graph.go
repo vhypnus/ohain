@@ -6,7 +6,7 @@ type node struct {
 	// shot for type . struct interface func method
 	block Block  
 
-	edges array
+	// edges array
 
 }
 
@@ -22,14 +22,9 @@ type edge struct {
 	end node
 }
 
-struct 
-
 // 
 
 type method struct{
 
 	node
 }
-
-
-func 

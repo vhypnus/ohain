@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 package repo
 
-import (
-	"log"
-	"io/ioutil"
-)
 
 // 关系类型
 const (
@@ -22,25 +17,27 @@ const (
  */
 type File struct{
 
-	fileId string
-
 	path string
 
+	data []byte
 	// block format (level,start,end)
-	blocks array
+	// blocks array
 
 	//notes format (start,end)
-	notes array  
+	// notes array  
 }
 
 
-func (f File) NewFile(filepath string) File {
+// func (f File) NewFile(filepath string,data []byte) File {
 
-}
+// 	return 
+// }
 
 
-func (f File) GetBlock(int level) {
-	
+
+
+func (f File) GetBlock( level int) {
+
 }
 
 
