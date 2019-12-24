@@ -13,7 +13,7 @@ import (
 	"runtime"
 	"bytes"
 )
-const RepoRootDir string = "C:\\Users\\monan\\Desktop\\all in one\\source code"
+const RepoRootDir string = "C:\\Users\\monan\\Desktop\\ohainworkspace"
 
 type Repo struct {
 
@@ -27,18 +27,11 @@ type Repo struct {
 }
 
 
-type Diff struct {
-
-	//abs file path
-	filepath string
-
-	// 位图 ，表示某一行删除或者新增
-
-}
 
 
 func NewRepo(url string) Repo{
 	path := RepoRootDir + string(os.PathSeparator) + "driving-order"
+	log.Printf("repo path %s",path)
 	var repo = Repo{url,path,url}
 	return repo
 }
@@ -55,8 +48,11 @@ func (r Repo) Sync(){
 		scriptpath = "C:\\Users\\monan\\Desktop\\all in one\\source code\\ohain\\repo\\script\\sync.bat"
 	}
 
-	content := execute(scriptpath,r.path) 
-	log.Println(content)
+	log.Printf("osName %s scriptpath %s",osName,scriptpath)
+	// warning 路径不能带有空格
+	var cmd *exec.Cmd = exec.Command(scriptpath,"http://git.51caocao.cn/java-newer/driving-order",r.path) 
+	ParserCmd(cmd)
+
 
 	//todo error deal
 }
@@ -73,7 +69,8 @@ func (r Repo) Diff(srcCommit string,targetCommit string) string{
 		scriptpath = "C:\\Users\\monan\\Desktop\\all in one\\source code\\ohain\\repo\\script\\diff.bat"
 	}
 
-	content := execute(scriptpath,r.path) 
+	var cmd *exec.Cmd = exec.Command(scriptpath,"C:\\Users\\monan\\Desktop\\ohainworkspace\\driving-order",srcCommit,targetCommit)
+	content := ParserCmd(cmd) 
 	return content
 }
 
@@ -95,8 +92,7 @@ func (r Repo) ReadFile(filepath string) []byte {
 
 // 缓存文件id与文件路径的关系
 
-func execute(scriptpath string,args string) string{
-	cmd := exec.Command(scriptpath,args)
+func ParserCmd(cmd *exec.Cmd) string{
 
 	var out bytes.Buffer
     cmd.Stdout = &out
@@ -109,6 +105,7 @@ func execute(scriptpath string,args string) string{
 
 	output := out.String()
 
+	log.Printf("cmd content %s",output)
 	// todo error case deal
 
 	//success return content
