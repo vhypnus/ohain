@@ -53,17 +53,15 @@ type File struct{
 	// slash index
 	s []int 
 
-	// asterisk index 
+	// * asterisk index 
 	a []int
 
 	//package index
-	p []int
+	p int
 
 	//import index
 	i []int
 }
-
-
 
 
 func NewFile(path string) *File{
@@ -112,4 +110,8 @@ func InitFile(content string) *File{
 	return f
 }
 
+
+func (f File) GetFileInfo(){
+	// fp,p,i
+}
 

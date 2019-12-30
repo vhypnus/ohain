@@ -110,7 +110,13 @@ func ParserCmd(cmd *exec.Cmd) string{
 }
 
 
+func (p Project) PackageGraph(){
 
+}
+
+func (p Project) GetChain(){
+	
+}
 
 
 

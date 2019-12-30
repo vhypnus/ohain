@@ -2,10 +2,10 @@ package project
 
 
 type Package struct {
+	// dir path
+	dp string
 
-	path string
-
-	packages []Package
-
-	files []File
+	//package name
+	pn string
+	
 }
