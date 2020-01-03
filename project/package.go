@@ -7,5 +7,7 @@ type Package struct {
 
 	//package name
 	pn string
-	
+
+
+	//sub package
 }

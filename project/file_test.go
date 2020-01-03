@@ -28,7 +28,6 @@ func TestInitFile(t *testing.T) {
 			fmt.Println(i)
 			i += 1
 		}
-		
 	}
 
 	var f *File = InitFile(code)

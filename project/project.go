@@ -13,14 +13,24 @@ import (
 	"runtime"
 	"bytes"
 )
-const PROJECT_ROOT_DIR string = "C:\\Users\\monan\\Desktop\\ohainworkspace"
+const (
+	PROJECT_ROOT_DIR string = "C:\\Users\\monan\\Desktop\\ohainworkspace",
+	JAVA = 1
+	GO = 2
+)
 
 type Project struct {
 
 	// unique
 	url string
 
-	path string
+	//project path
+	pp string
+
+	// package
+
+	// type 需要排序
+	types []string
 
 }
 
@@ -110,13 +120,39 @@ func ParserCmd(cmd *exec.Cmd) string{
 }
 
 
-func (p Project) PackageGraph(){
+func (p Project) AddCategory(){
 
 }
 
-func (p Project) GetChain(){
-	
+
+type Model struct {
+	//field name
+	n string
+
+	//field type
+	p string 
+
+	//field note
+	n string
 }
+
+
+func GetModel() *[]Model{
+	// open dir
+
+	// new file
+
+	// get model
+	var s,e = f.GetBlock(1)
+
+	// pre return index 
+	var s = f.GetPre('\n')
+
+	// sub content
+	var c = f.GetSubContent(s,e)
+} 
+
+
 
 
 

@@ -6,3 +6,8 @@ package project
 const (
 
 )
+
+// codeType
+func GetStatementType(codeType int,line string) int {
+	
+}
