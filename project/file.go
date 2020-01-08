@@ -63,24 +63,27 @@ type File struct{
 	//content
 	c string
 	
-	// mark
-	m []Mark
+	// mark position
+	mp []int
+
+	// mark char
+	mc []int
 
 }
 
 
-type Mark struct {
-	// index 
-	i int
 
-	// type
-	t int 
 
-	// preview
-	prev *Mark
+type Range struct {
+	// start index
+	s int
 
-	// next
-	next *Mark
+	// end index 
+	e int
+
+	// type:[),[],(],()
+	t int
+
 }
 
 
@@ -98,39 +101,77 @@ func NewFile(path string) *File{
 }
 
 func mark(content string) *File{
-	// index char
-	// mark
-	var mi,mt = make([]int,100),make([]int,100)
+	// tmp mark index,tmp mark char 
+	var tmp,tmc = make([]int,100),make([]int,100)
 	var tmp = nil
 	for i,c := range content {
 		if c == '{' ||c == '}' || c == '"' || c == '\'' || c == '/' ||c == '*' || c == '\n' {
-			if tmp == nil {
-
-			}
-			m = append(m,c)
+			
+			tmp = append(tmp,c)
+			tmc = append(tmc,c)
 		}
-
 	}
 
 	// 
-	var f = &File{c:content,m:m}
+	var f = &File{c:content,mp:tmp,mc:tmc}
 	return f
 }
 
-
+// subcontent
 func (f *File) SubContent(s int,e int) string{
 	return f.c[s:e]
 }
 
 
 
+// c ==> target char 
+// s ==> start index
+// ec ==> end char 
+// -1 is not found
+func (f *File) indexUntil(c int,s int ,ec int) int {
+
+}
+
+//return f.mc offset
+func (f *File) index(p int) (o int) {
+	//start,middle,end
+	var s,o,e := 0,len(f.mi)/2,len(f.mi)
+
+	for {
+		if f.mp[o] > p {
+			o = (s+o) /2 
+			e = m
+		} else if f.mp[o] < p {
+			index = (o +e)/2
+			s = o
+		} else if f.mp[o] == p {
+			break
+		}
+	}
+
+}
+
+//return f.mp position
+func (f *File) forward(o int,c int)  (p int) {
+	var min,max,p = o,len(f.mc),o
+
+	for index := min ; index < max ;index ++ {
+		f.mc[index] == c {
+			p = index
+			break
+		}
+	}
+}
 
 // 获取上一行
-func (f *File) GetPrevLine(p int) string {
+// p position
+func (f *File) PrevLine(c char,p int) (s int,e int) {
+	var offset := index(c,p)
+
 	//start,end
-	var s,e = p,p
-	for index := range(p,len(f.content),-1) {
-		if f.c == '\n'{
+	var s,e = offset,offset
+	for index = offset ; index > 0 ; index-- {
+		if f.mt[index] == '\n'{
 			if e == p {
 				e = index
 			} else e < p {
@@ -139,15 +180,17 @@ func (f *File) GetPrevLine(p int) string {
 			}
 		}
 	}
-	return f.c[s:e]
 }
 
 // 获取当前行
-func (f *File) GetCurrentLine(p int) string {
-	//start,end
-	var s,e = p,p
-	for index := range(p,len(f.content),-1) {
-		if f.c == '\n'{
+func (f *File) CurrentLine(c int,p int) (s int,e int) {
+
+	//offset
+	var o := index(c,p)
+	//start,end,max
+	var s,e,max,min = o,o,len(f.mt),0
+	for index := o ; index > min ;index-- {
+		if f.mt[index] == '\n'{
 			if s == p {
 				s = index
 				break
@@ -155,7 +198,7 @@ func (f *File) GetCurrentLine(p int) string {
 		}
 	}
 
-	for index := range(p,len(f.content),1) {
+	for index = o ;index < max ;index++ {
 		if f.c == '\n'{
 			if e == p {
 				e = index
@@ -163,13 +206,15 @@ func (f *File) GetCurrentLine(p int) string {
 			}
 		}
 	}
-	return f.c[s:e]
 }
 
-func (f *File) GetNextLine(p int) string {
+func (f *File) NextLine(c char,p int) (s int,e int) {
+
+	//offset
+	var o := index(c,p)
 	//start,end
 	var s,e = p,p
-	for index := range(p,len(f.content),1) {
+	for index = o ;index < max ;index++ {
 		if f.c == '\n'{
 			if s == p {
 				s = index
@@ -179,7 +224,6 @@ func (f *File) GetNextLine(p int) string {
 			}
 		}
 	}
-	return f.c[s:e]
 }
 
 
@@ -187,7 +231,7 @@ func (f *File) GetNextLine(p int) string {
  * kmp算法
  * ss:substring
  */
-func (f *File)GetPre(ss string ,p int) string{
+func (f *File) IndexBackward(ss string ,p int) string {
 	var s ,e = -1,-1
 	for  i := range(p,0,-1) {
 		if string(content[p-1:p]) == '*/' {
@@ -203,24 +247,24 @@ func (f *File)GetPre(ss string ,p int) string{
 	return s,e
 }
 
-func (f *File)GetNext(ss string,p int) string {
-	
+func (f *File) IndexForward(ss string,p int) string {
+
 }
 
 
 
 
 //
-func (f *File) GetBlock(level int) (int,int) {
+func (f *File) Block(level int,blockChar int) (int,int) {
 	//start index ,end index,l
 	var s,e,l = -1,-1,0
-	for _,item = range f.m {
+	for index,item = range f.mt {
 		if item.type = '{' && l = 0{
 			l += 1
-			s = item.i
+			s = mi[index]
 		}else if item.type == '}' {
 			if level = 1 {
-				e = item.i
+				e = mi[index]
 			} 
 			
 			l -= 1
@@ -231,7 +275,7 @@ func (f *File) GetBlock(level int) (int,int) {
 }
 
 
-func (f *File) GetVariable(s int,e int) []Variable {
+func (f *File) Variable(s int,e int) []Variable {
 	var v = make([]Variable ,16)
 	//line start ,line end
 	var ls ,le = -1 ,-1
