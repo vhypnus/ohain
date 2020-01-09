@@ -6,6 +6,11 @@ import (
 	"os"
 )
 var dir , _= os.Getwd()
-var f *File = NewFile(dir + os.PathSeparator + OsBillInfo_test.java)
+var f *File = NewFile(dir + string(os.PathSeparator) + "OsBillInfo_test.java")
+
+func Test(t *testing.T) {
+	fmt.Println(f.mp)
+}
+
 
 

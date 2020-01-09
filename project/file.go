@@ -94,33 +94,32 @@ func NewFile(path string) *File{
 	}
 
 
-	content := string(data)
-	var f *File = mark(content)
+	var content string = string(data)
+	var f *File = &File{c:content}
 	return f
 	
 }
 
-func mark(content string) *File{
+func (f *File) mark() {
 	// tmp mark index,tmp mark char 
 	var tmp,tmc = make([]int,100),make([]int,100)
-	var tmp = nil
-	for i,c := range content {
+	for c := range f.c {
 		if c == '{' ||c == '}' || c == '"' || c == '\'' || c == '/' ||c == '*' || c == '\n' {
 			
-			tmp = append(tmp,c)
-			tmc = append(tmc,c)
+			tmp = append(tmp,int(c))
+			tmc = append(tmc,int(c))
 		}
 	}
 
 	// 
-	var f = &File{c:content,mp:tmp,mc:tmc}
-	return f
+	f.mp = tmp
+	f.mc = tmc
 }
 
 // subcontent
-func (f *File) SubContent(s int,e int) string{
-	return f.c[s:e]
-}
+// func (f *File) SubContent(s int,e int) string{
+// 	return f.c[s:e]
+// }
 
 
 
@@ -128,175 +127,178 @@ func (f *File) SubContent(s int,e int) string{
 // s ==> start index
 // ec ==> end char 
 // -1 is not found
-func (f *File) indexUntil(c int,s int ,ec int) int {
-
-}
+// func (f *File) Until(c int,s int ,ec int) int {
+// 	return 0
+// }
 
 //return f.mc offset
-func (f *File) index(p int) (o int) {
-	//start,middle,end
-	var s,o,e := 0,len(f.mi)/2,len(f.mi)
+// func (f *File) Index(p int) int {
+// 	//start,middle,end
+// 	var s,m,e = 0,len(f.mp)/2,len(f.mp)
 
-	for {
-		if f.mp[o] > p {
-			o = (s+o) /2 
-			e = m
-		} else if f.mp[o] < p {
-			index = (o +e)/2
-			s = o
-		} else if f.mp[o] == p {
-			break
-		}
-	}
+// 	for {
+// 		if f.mp[m] > p {
+// 			m = (s+m) /2 
+// 			e = m
+// 		} else if f.mp[m] < p {
+// 			m = (m +e)/2
+// 			s = m
+// 		} else if f.mp[m] == p {
+// 			break
+// 		}
+// 	}
 
-}
+// 	return m
+// }
 
-//return f.mp position
-func (f *File) forward(o int,c int)  (p int) {
-	var min,max,p = o,len(f.mc),o
+// //return f.mp position
+// func (f *File) Forward(o int,c int) int {
+// 	var min,max,p = o,len(f.mc),o
 
-	for index := min ; index < max ;index ++ {
-		f.mc[index] == c {
-			p = index
-			break
-		}
-	}
-}
+// 	for index := min ; index < max ;index ++ {
+// 		if f.mc[index] == c {
+// 			p = index
+// 			break
+// 		}
+// 	}
 
-// 获取上一行
-// p position
-func (f *File) PrevLine(c char,p int) (s int,e int) {
-	var offset := index(c,p)
+// 	return p
+// }
 
-	//start,end
-	var s,e = offset,offset
-	for index = offset ; index > 0 ; index-- {
-		if f.mt[index] == '\n'{
-			if e == p {
-				e = index
-			} else e < p {
-				s = index
-				break
-			}
-		}
-	}
-}
+// func (f *File) Backward(o int,c int) int {
+// 	return 0
+// }
 
-// 获取当前行
-func (f *File) CurrentLine(c int,p int) (s int,e int) {
+// // 获取上一行
+// // p position
+// func (f *File) PrevLine(c int,p int) (int,int) {
+// 	var offset = Index(p)
 
-	//offset
-	var o := index(c,p)
-	//start,end,max
-	var s,e,max,min = o,o,len(f.mt),0
-	for index := o ; index > min ;index-- {
-		if f.mt[index] == '\n'{
-			if s == p {
-				s = index
-				break
-			}
-		}
-	}
+// 	//start,end
+// 	var s,e = offset,offset
+// 	for index := offset ; index > 0 ; index-- {
+// 		if f.mt[index] == '\n'{
+// 			if e == p {
+// 				e = index
+// 			} else if e < p {
+// 				s = index
+// 				break
+// 			}
+// 		}
+// 	}
 
-	for index = o ;index < max ;index++ {
-		if f.c == '\n'{
-			if e == p {
-				e = index
-				break
-			}
-		}
-	}
-}
+// 	return s,e
+// }
 
-func (f *File) NextLine(c char,p int) (s int,e int) {
+// // 获取当前行
+// func (f *File) CurrentLine(c int,p int) (int,int) {
 
-	//offset
-	var o := index(c,p)
-	//start,end
-	var s,e = p,p
-	for index = o ;index < max ;index++ {
-		if f.c == '\n'{
-			if s == p {
-				s = index
-			} else s > p {
-				e = index
-				break
-			}
-		}
-	}
-}
+// 	//offset
+// 	var o = Index(c,p)
+// 	//start,end,max
+// 	var s,e,max,min = o,o,len(f.mt),0
+// 	for index := o ; index > min ;index-- {
+// 		if f.mt[index] == '\n'{
+// 			if s == p {
+// 				s = index
+// 				break
+// 			}
+// 		}
+// 	}
 
+// 	for index = o ;index < max ;index++ {
+// 		if f.c == '\n'{
+// 			if e == p {
+// 				e = index
+// 				break
+// 			}
+// 		}
+// 	}
 
-/*
- * kmp算法
- * ss:substring
- */
-func (f *File) IndexBackward(ss string ,p int) string {
-	var s ,e = -1,-1
-	for  i := range(p,0,-1) {
-		if string(content[p-1:p]) == '*/' {
-			s = i 
-		}
+// 	return s,e
+// }
 
-		if s >= 0 && string(content[p-1:p]) == '/*' {
-			e = p-1
-			break
-		}
-	}
+// func (f *File) NextLine(c char,p int) (int,int) {
 
-	return s,e
-}
+// 	//offset
+// 	var o = index(c,p)
+// 	//start,end
+// 	var s,e = p,p
+// 	for index = o ;index < max ;index++ {
+// 		if f.c == '\n'{
+// 			if s == p {
+// 				s = index
+// 			} else if s > p {
+// 				e = index
+// 				break
+// 			}
+// 		}
+// 	}
 
-func (f *File) IndexForward(ss string,p int) string {
-
-}
+// 	return s,e
+// }
 
 
+// /*
+//  * kmp算法
+//  * ss:substring
+//  */
+// func (f *File) Fackward(ss string ,p int) (int,int) {
+// 	var s ,e,step = -1,-1,len(ss)
+// 	for  index := p ;index > 0 ;index-- {
+// 		if string(content[index-step:index]) == ss {
+// 			s = index - step
+// 			e = index 
+// 			break
+// 		}
+// 	}
 
+// 	return s,e
+// }
 
-//
-func (f *File) Block(level int,blockChar int) (int,int) {
-	//start index ,end index,l
-	var s,e,l = -1,-1,0
-	for index,item = range f.mt {
-		if item.type = '{' && l = 0{
-			l += 1
-			s = mi[index]
-		}else if item.type == '}' {
-			if level = 1 {
-				e = mi[index]
-			} 
+// //
+// func (f *File) Block(level int) (int,int) {
+// 	//start index ,end index,l
+// 	var s,e,l = -1,-1,0
+// 	for index,item = range f.mt {
+// 		if item == '{' && l == 0{
+// 			l += 1
+// 			s = mi[index]
+// 		}else if item == '}' {
+// 			if level == 1 {
+// 				e = mi[index]
+// 			} 
 			
-			l -= 1
-		}
-	}
+// 			l -= 1
+// 		}
+// 	}
 
-	return s,e
-}
+// 	return s,e
+// }
 
 
-func (f *File) Variable(s int,e int) []Variable {
-	var v = make([]Variable ,16)
-	//line start ,line end
-	var ls ,le = -1 ,-1
-	for p := range(s,e,1) {
-		if f.content[p] == ';' {
-			le = p-1
-		}
+// func (f *File) Variable(s int,e int) []Variable {
+// 	var v = make([]Variable ,16)
+// 	//line start ,line end
+// 	var ls ,le = -1 ,-1
+// 	for p := s ; p < e ; p++ {
+// 		if f.content[p] == ';' {
+// 			le = p-1
+// 		}
 
-		if f.content[p] == '\r' {
-			ls = p +1
-			v = append(v,GetVariable(f.content[ls,le]))
-		}
+// 		if f.content[p] == '\r' {
+// 			ls = p +1
+// 			v = append(v,GetVariable(f.content[ls,le]))
+// 		}
 
-		//reset
-		if f.content[p] == '\r' {
-			ls ,le = -1 ,-1
-		}
-	}
+// 		//reset
+// 		if f.content[p] == '\r' {
+// 			ls ,le = -1 ,-1
+// 		}
+// 	}
 
-	return v
-}
+// 	return v
+// }
 
 
 

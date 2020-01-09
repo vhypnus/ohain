@@ -14,7 +14,7 @@ import (
 	"bytes"
 )
 const (
-	PROJECT_ROOT_DIR string = "C:\\Users\\monan\\Desktop\\ohainworkspace",
+	PROJECT_ROOT_DIR string = "C:\\Users\\monan\\Desktop\\ohainworkspace"
 	JAVA = 1
 	GO = 2
 )
@@ -40,7 +40,7 @@ type Project struct {
 func NewProject(url string) Project{
 	path := PROJECT_ROOT_DIR + string(os.PathSeparator) + "driving-order"
 	log.Printf("repo path %s",path)
-	var project = Project{url,path}
+	var project = Project{}
 	return project
 }
 
@@ -58,7 +58,7 @@ func (r Project) Sync(){
 
 	log.Printf("osName %s scriptpath %s",osName,scriptpath)
 	// warning 路径不能带有空格
-	var cmd *exec.Cmd = exec.Command(scriptpath,"http://git.51caocao.cn/java-newer/driving-order",r.path) 
+	var cmd *exec.Cmd = exec.Command(scriptpath,"http://git.51caocao.cn/java-newer/driving-order","") 
 	ParserCmd(cmd)
 
 
@@ -125,32 +125,20 @@ func (p Project) AddCategory(){
 }
 
 
-type Model struct {
-	//field name
-	n string
+// func GetModel() *[]Model{
+// 	// open dir
 
-	//field type
-	p string 
+// 	// new file
 
-	//field note
-	n string
-}
+// 	// get model
+// 	var s,e = f.GetBlock(1)
 
+// 	// pre return index 
+// 	var s = f.GetPre('\n')
 
-func GetModel() *[]Model{
-	// open dir
-
-	// new file
-
-	// get model
-	var s,e = f.GetBlock(1)
-
-	// pre return index 
-	var s = f.GetPre('\n')
-
-	// sub content
-	var c = f.GetSubContent(s,e)
-} 
+// 	// sub content
+// 	var c = f.GetSubContent(s,e)
+// } 
 
 
 
