@@ -20,7 +20,9 @@ func TestNewFile(t *testing.T) {
 
 func TestBlock(t *testing.T) {
 
-	var f *File = NewFile(testpath + "block_test.java")
+	var c string = `{System.out.print{{}}ln("hello world") ;}`
+	var f *File = &File{c:c}
+	f.mark()
 	fmt.Println(f.mp)
 	fmt.Println(f.mc)
 	fmt.Println('{')
