@@ -6,42 +6,6 @@ import (
 	"container/list"
 )
 
-
-// mark constant
-const (
-
-	// left brace '{'
-	LB = 1
-
-	//right brace '{'
-	RB = 1 << 1
-
-	// sigle quote(') 
-	SQ = 1 << 2
-
-	//double quote("") 
-	DQ = 1 << 3
-
-	// slash(/) 
-	S = 1 << 4 
-
-	// back slash(/) 
-	BS = 1 << 5
-
-	// * asterisk  
-	A = 1 << 6
-
-	// \n
-	R = 1 << 7
-
-	// package key word
-	P = 3 
-
-	// import key word
-
-	// new key word
-)
-
 // 关系类
 /*
  * fileleve root -> import level --> declare leve --> new level --> uselevel
@@ -120,13 +84,6 @@ func (f *File) mark() {
 	f.mp = tmp
 	f.mc = tmc
 }
-
-// subcontent
-// func (f *File) SubContent(s int,e int) string{
-// 	return f.c[s:e]
-// }
-
-
 
 // c ==> target char 
 // s ==> start index
@@ -269,29 +226,36 @@ func (f *File) CurrentLine(p int) (int,int) {
 	return s,e
 }
 
-// func (f *File) NextLine(c char,p int) (int,int) {
-// 
-// 	//offset
-// 	var o = index(c,p)
-// 	//start,end
-// 	var s,e = p,p
-// 	for index = o ;index < max ;index++ {
-// 		if f.c == '\n'{
-// 			if s == p {
-// 				s = index
-// 			} else if s > p {
-// 				e = index
-// 				break
-// 			}
-// 		}
-// 	}
 
-// 	if s > 0 && e < 0 {
-// 		e = len(f.c) - 1
-// 	}
 
-// 	return s,e
-// }
+func (f *File) NextLine(p int) (int,int) {
+
+	//offset
+	var o = f.Offset(p)
+	//start,end
+	var s,e,min,max = -1,-1,o,len(f.mc)-1
+	for index := min ;index <= max ;index++ {
+		if f.mc[index] == '\n'{
+			if s == -1 {
+				s = f.mp[index]
+			} else if e == -1 {
+				e = f.mp[index]
+				break
+			}
+		}
+	}
+
+	if s > 0 && e == -1 {
+		e = len(f.c) - 1
+	}
+
+	return s,e
+}
+
+// subcontent
+func (f *File) SubContent(s int,e int) string{
+	return f.c[s:e]
+}
 
 
 // /*

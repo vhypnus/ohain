@@ -155,4 +155,47 @@ func TestCurrentLine(t *testing.T) {
 }
 
 
+func TestNextLine(t *testing.T) {
+	var c = `public class OsBillInfo extends Model {}`
+	//case 1:
+	var f *File = &File{c:c}
+	f.mark()
+	var s,e = f.Block(1)
+	fmt.Printf("s  %d e %d \n",s,e)
+
+	s,e = f.NextLine(s)
+	fmt.Printf("s  %d e %d \n",s,e)
+
+	fmt.Println("==================case 2============")
+	//case 2:
+	c = `import xxx.xxx.xxx
+		 public class OsBillInfo extends Model {
+		 	private Long money
+		 }`
+	f = &File{c:c}
+	f.mark()
+	s,e = -1,-1
+	s,e = f.Block(1)
+
+	s,e = f.NextLine(s)
+	fmt.Printf("s  %d e %d \n",s,e)
+
+
+	fmt.Println("==================case 3============")
+	//case 3:
+	c = `import xxx.xxx.xxx
+		 import aaa.bbb.ccc
+		 public class OsBillInfo extends Model {
+		 	private Long money
+		 }`
+	f = &File{c:c}
+	f.mark()
+	s,e = -1,-1
+	s,e = f.Block(1)
+
+	s,e = f.NextLine(s)
+	fmt.Printf("s  %d e %d \n",s,e)
+}
+
+
 
