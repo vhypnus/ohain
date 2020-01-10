@@ -10,7 +10,9 @@ var testpath = dir + string(os.PathSeparator)+"test_data" +string(os.PathSeparat
 
 
 func TestNewFile(t *testing.T) {
-	var f *File = NewFile(dir + string(os.PathSeparator) + "brace_test.java")
+	var c string = `{System.out.print{{}}ln("hello world") ;}`
+	var f *File = &File{c:c}
+	f.mark()
 	fmt.Println(f.mp)
 	fmt.Printf("mp len %d cap %d\n",len(f.mp),cap(f.mp))
 	fmt.Printf("mp len %d cap %d\n",len(f.mc),cap(f.mp))
@@ -33,7 +35,9 @@ func TestBlock(t *testing.T) {
 
 func TestOffset(t *testing.T) {
 	// 边界场景测试，最后一个用户
-	var f *File = NewFile(testpath + string(os.PathSeparator) + "offset_test.java")
+	var c string = `{System.out.print{{}}ln("hello world") ;}`
+	var f *File = &File{c:c}
+	f.mark()
 	var p = f.mp[len(f.mp)-1]
 	fmt.Println(f.mp)
 	fmt.Println(p)
@@ -58,8 +62,9 @@ func TestOffset(t *testing.T) {
 }
 
 func TestForward(t *testing.T) {
-	var f *File = NewFile(testpath + string(os.PathSeparator) + "brace_test.java")
-	fmt.Println(f.mp)
+	var c string = `{System.out.print{{}}ln("hello world") ;}`
+	var f *File = &File{c:c}
+	f.mark()
 	var p = f.Forward(0,'{')
 	fmt.Printf("forward %d\n",p)
 
@@ -68,7 +73,9 @@ func TestForward(t *testing.T) {
 }
 
 func TestBackward(t *testing.T) {
-	var f *File = NewFile(dir + string(os.PathSeparator) + "brace_test.java")
+	var c string = `{System.out.print{{}}ln("hello world") ;}`
+	var f *File = &File{c:c}
+	f.mark()
 	var p = f.Backward(3,'{')
 	fmt.Printf("backword %d\n",p)
 }
@@ -197,5 +204,15 @@ func TestNextLine(t *testing.T) {
 	fmt.Printf("s  %d e %d \n",s,e)
 }
 
+
+func TestSubContent(t *testing.T) {
+	var c = `public class OsBillInfo extends Model {System.out.println("hello world");}`
+	//case 1:
+	var f *File = &File{c:c}
+	f.mark()
+	var s,e = f.Block(1)
+
+	fmt.Println(f.SubContent(s+1,e))
+}
 
 
