@@ -2,6 +2,8 @@ package project
 
 import (
 	"io/ioutil"
+	"fmt"
+	"container/list"
 )
 
 
@@ -67,7 +69,7 @@ type File struct{
 	mp []int
 
 	// mark char
-	mc []int
+	mc []byte
 
 }
 
@@ -96,22 +98,25 @@ func NewFile(path string) *File{
 
 	var content string = string(data)
 	var f *File = &File{c:content}
+	f.mark()
 	return f
 	
 }
 
 func (f *File) mark() {
 	// tmp mark index,tmp mark char 
-	var tmp,tmc = make([]int,100),make([]int,100)
-	for c := range f.c {
-		if c == '{' ||c == '}' || c == '"' || c == '\'' || c == '/' ||c == '*' || c == '\n' {
-			
-			tmp = append(tmp,int(c))
-			tmc = append(tmc,int(c))
+	var tmp,tmc = make([]int,0),make([]byte,0)
+	fmt.Println()
+	for p:= range f.c {
+		var c = f.c[p]
+
+		
+		if c == '{' ||c == '}' || c == '\'' || c == '/' ||c == '*' || c == '\n' {
+			tmp = append(tmp,int(p))
+			tmc = append(tmc,c)
 		}
 	}
 
-	// 
 	f.mp = tmp
 	f.mc = tmc
 }
@@ -131,95 +136,141 @@ func (f *File) mark() {
 // 	return 0
 // }
 
+// {{{}{}}}
+func (f *File) Block(level int) (int,int) {
+	//position channel
+	var q = list.New()
+	var s ,e = -1 ,-1
+	
+	for i,c := range f.mc {
+
+		if c == '{' {
+			q.PushBack(f.mp[i])
+		} else if c == '}' {
+			ele := q.Back()
+			q.Remove(ele)
+			if q.Len() == level - 1 {
+				s = ele.Value.(int)
+				e = f.mp[i]
+			}
+
+		}
+	}
+
+	return s ,e 
+
+}
+
 //return f.mc offset
-// func (f *File) Index(p int) int {
-// 	//start,middle,end
-// 	var s,m,e = 0,len(f.mp)/2,len(f.mp)
+func (f *File) Offset(p int) int {
+	//min,max,offset
+	var min,max ,o  = 0,len(f.mp),-1
 
-// 	for {
-// 		if f.mp[m] > p {
-// 			m = (s+m) /2 
-// 			e = m
-// 		} else if f.mp[m] < p {
-// 			m = (m +e)/2
-// 			s = m
-// 		} else if f.mp[m] == p {
-// 			break
-// 		}
-// 	}
+	for max >= min {
+		mid := (min + max) / 2
+		if f.mp[mid] > p {
+			max = mid - 1 
+		} else if f.mp[mid] < p {
+			min = mid + 1
+		} else if f.mp[mid] == p {
+			o = mid
+			break
+		}
+	}
 
-// 	return m
-// }
+	return o
+}
 
-// //return f.mp position
-// func (f *File) Forward(o int,c int) int {
-// 	var min,max,p = o,len(f.mc),o
+// return f.mp position
+func (f *File) Forward(o int,c byte) int {
+	var min,max,p = o,len(f.mc),-1
 
-// 	for index := min ; index < max ;index ++ {
-// 		if f.mc[index] == c {
-// 			p = index
-// 			break
-// 		}
-// 	}
+	for index := min ; index <= max ;index ++ {
+		if f.mc[index] == c {
+			p = f.mp[index]
+			break
+		}
+	}
 
-// 	return p
-// }
+	return p
+}
 
-// func (f *File) Backward(o int,c int) int {
-// 	return 0
-// }
+func (f *File) Backward(o int,c byte) int {
+	var min,max,p = 0,o,-1
+
+	for index := max ; index >= min ;index-- {
+		if f.mc[index] == c {
+			p = f.mp[index]
+			break
+		}
+	}
+
+	return p
+}
 
 // // 获取上一行
 // // p position
-// func (f *File) PrevLine(c int,p int) (int,int) {
-// 	var offset = Index(p)
+func (f *File) PrevLine(p int) (int,int) {
+	var o = f.Offset(p)
 
-// 	//start,end
-// 	var s,e = offset,offset
-// 	for index := offset ; index > 0 ; index-- {
-// 		if f.mt[index] == '\n'{
-// 			if e == p {
-// 				e = index
-// 			} else if e < p {
-// 				s = index
-// 				break
-// 			}
-// 		}
-// 	}
+	//start,end
+	var s,e = -1,-1
+	for index := o ; index >= 0 ; index-- {
+		if f.mc[index] == '\n'{
+			if e == -1 {
+				e = f.mp[index]
+			} else {
+				s = f.mp[index]
+				break
+			}
+		}
+	}
 
-// 	return s,e
-// }
+	if e > 0 && s < 0 {
+		s = 0
+	}
+
+	return s,e
+}
 
 // // 获取当前行
-// func (f *File) CurrentLine(c int,p int) (int,int) {
+func (f *File) CurrentLine(p int) (int,int) {
 
-// 	//offset
-// 	var o = Index(c,p)
-// 	//start,end,max
-// 	var s,e,max,min = o,o,len(f.mt),0
-// 	for index := o ; index > min ;index-- {
-// 		if f.mt[index] == '\n'{
-// 			if s == p {
-// 				s = index
-// 				break
-// 			}
-// 		}
-// 	}
+	//offset
+	var o = f.Offset(p)
+	//start,end,max
+	var s,e,min,max = -1,-1,0,len(f.mc)-1
+	for index := o ; index >= min ;index-- {
+		if f.mc[index] == '\n'{
+			if s == -1 {
+				s = f.mp[index]
+				break
+			}
+		}
+	}
 
-// 	for index = o ;index < max ;index++ {
-// 		if f.c == '\n'{
-// 			if e == p {
-// 				e = index
-// 				break
-// 			}
-// 		}
-// 	}
+	for index := o ;index <= max ;index++ {
+		if f.mc[index] == '\n'{
+			if e == -1 {
+				e = f.mp[index]
+				break
+			}
+		}
+	}
 
-// 	return s,e
-// }
+	if s ==-1 {
+		s = 0
+	}
+
+	if e == -1 {
+		e = len(f.c) - 1
+	}
+
+	return s,e
+}
 
 // func (f *File) NextLine(c char,p int) (int,int) {
-
+// 
 // 	//offset
 // 	var o = index(c,p)
 // 	//start,end
@@ -233,6 +284,10 @@ func (f *File) mark() {
 // 				break
 // 			}
 // 		}
+// 	}
+
+// 	if s > 0 && e < 0 {
+// 		e = len(f.c) - 1
 // 	}
 
 // 	return s,e
@@ -256,25 +311,7 @@ func (f *File) mark() {
 // 	return s,e
 // }
 
-// //
-// func (f *File) Block(level int) (int,int) {
-// 	//start index ,end index,l
-// 	var s,e,l = -1,-1,0
-// 	for index,item = range f.mt {
-// 		if item == '{' && l == 0{
-// 			l += 1
-// 			s = mi[index]
-// 		}else if item == '}' {
-// 			if level == 1 {
-// 				e = mi[index]
-// 			} 
-			
-// 			l -= 1
-// 		}
-// 	}
 
-// 	return s,e
-// }
 
 
 // func (f *File) Variable(s int,e int) []Variable {
