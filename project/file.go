@@ -257,16 +257,20 @@ func (f *File) SubContent(s int,e int) string{
 	return f.c[s:e]
 }
 
+func (f *File) ForwarChar(p int ,len int) string {
+	
+}
 
 // 代码文件包含（注释,code）
-// case 字符串包含注释符号
-func (f *File) NoteBlock(p int,s int ,e int) {
+// case 字符串包含注释符号,如果首先遇到的是代码，则返回-1.-1
+// p position
+func (f *File) Note(p int) (int,int){
 	var o = f.Offset(p)
 
 
 }
 
-func (f *File) NextCode(p int,s int,e int){
+func (f *File) Code(p int)(int,int){
 
 }
 
