@@ -258,6 +258,18 @@ func (f *File) SubContent(s int,e int) string{
 }
 
 
+// 代码文件包含（注释,code）
+// case 字符串包含注释符号
+func (f *File) NoteBlock(p int,s int ,e int) {
+	var o = f.Offset(p)
+
+
+}
+
+func (f *File) NextCode(p int,s int,e int){
+
+}
+
 // /*
 //  * kmp算法
 //  * ss:substring
