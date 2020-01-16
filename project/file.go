@@ -250,26 +250,12 @@ func (f *File) NextLine(p int) (int,int) {
 	}
 
 	return s,e
-}
+} 
 
-// subcontent
-func (f *File) SubContent(s int,e int) string{
+
+// sub content
+func (f *File) Sub(s int,e int) string{
 	return f.c[s:e]
-}
-
-func (f *File) ForwarChar(p int ,len int) string {
-	var o = f.Offset(p)
-
-	var s = f.Forward(p,'\n')
-	var e = f.Forward(s,'\n')
-
-	
-	for index := s ;index <=e ;index++ {
-		f.c[index] == ' ' {
-
-		}
-	}
-
 }
 
 // 代码文件包含（注释,code）
@@ -277,8 +263,6 @@ func (f *File) ForwarChar(p int ,len int) string {
 // p position
 func (f *File) Note(p int) (int,int){
 	var o = f.Offset(p)
-
-
 
 }
 

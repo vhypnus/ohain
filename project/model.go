@@ -10,56 +10,50 @@ type Clazz struct {
 	fields []string
 }
 
+func (m Model) tostring(){
+	
+}
+
 
 //
-// func NewModel(p string) string {
-// 	rd, err := ioutil.ReadDir(p)
-//     for _, fi := range rd {
-//         if fi.IsDir() {
-//             //todo
-//         } else {
-//         	var model = ""
-//             var f *File = NewFile(p)
+func NewModel(p string) string {
+	rd, err := ioutil.ReadDir(p)
+    for _, fi := range rd {
+        if fi.IsDir() {
+            //todo
+        } else {
+        	var model = ""
+            var f *File = NewFile(p)
 
-//             var s,e = f.GetBlock(1)
+            var s,e = f.Block(1)
             
-//             var line = f.GetCurrentLine(s)
-//             // model name
-//             var mn = modelName(line)
+            var cs,ce = f.CurrentLine(s)
+            // model name
+            var mn = modelName(line)
 
-//             // line,note line,code line
-//             var l,nl,cl = "","",""
+            //current index
+            var p = ce+1
+            //next return '\n'
+            var nr = f.NextChar(ce,'\n')
+            for ;;{
 
-//             //current index
-//             var ci = 0
-//             for {
-
-//             	l = f.GetNextLine(s)
-
-//             	if l[:2] == "//" || l[:2] == "/*" {
-//             		nl += l
-//             	} else {
-
-//             		if cl != nil {
-// 	            		// parse nl,cl
-// 	            		var field = nil
-
-// 	            		//reset
-// 	            		var nl,cl = "",""
-// 	            	} 
-//             	}
+            	ns,ne = f.NextLine(p)
 
             	
+            	
+            	
+            	//reset
+            	p = ne + 1
+            	if p > e {
+            		break 
+            	}
 
-//             	if ci + len(l) > e {
-//             		break 
-//             	}
-//             }
+            }
 
 
-//         }
-//     }
-// }
+        }
+    }
+}
 
 // // return model name
 // func modelName(s string) string {
