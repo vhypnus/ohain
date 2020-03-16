@@ -77,7 +77,7 @@ func parse(content string) *File {
 
 
 
-//查最临近
+//小于但最临近的值
 func (f *File) LastCharPos(char int ,pos int) int {
 	
 	var arr,s,e,lpos =f.rp,0, len(f.rp)-1,-1
@@ -111,7 +111,34 @@ func (f *File) LastCharPos(char int ,pos int) int {
 }
 
 
-//
-func (f *File) NextCharPos(char int) int {
-	
+//大于但最临近的值
+func (f *File) NextCharPos(char int,pos int) int {
+	var arr,s,e,lpos =f.rp,0, len(f.rp)-1,-1
+
+	if pos > arr[e] {
+		panic(fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e]))
+	}
+
+	if pos < arr[s] {
+		panic(fmt.Sprintf("[%v] 小于数组 %v 最小值 [%v].\n", pos,arr,arr[s]))
+	}
+
+
+	//middle position,middle value
+	for e > s {
+		m := (s+e)/2
+		mv := arr[m]
+		if mv - pos > 0 {
+			e = m
+			lpos = mv
+		} else if mv - pos < 0  {
+			s = m+1
+		} else {
+			lpos = arr[m+1]
+			break
+		}
+		
+	}
+
+	return lpos
 }
