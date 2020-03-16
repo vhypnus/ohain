@@ -80,6 +80,25 @@ func TestCurrentLine(t *testing.T) {
 	s,e = f.CurrentLine(-1)
 }
 
+func TestBlock(t *testing.T) {
+	var content = `package helloworld;
+
+	public class HelloWorld {
+
+    	public static void main(String[] args) {
+       		System.out.println("hello world") ;
+    	}
+
+	}`
+	var f = parse(content)
+	fmt.Println(f)
+	
+
+	var s,e = f.Block(1);
+	fmt.Print(fmt.Sprintf("[%v ,%v]\n",s,e))
+
+}
+
 func TestNew(t *testing.T){
 	// var c = "hello world"
 

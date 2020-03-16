@@ -47,7 +47,7 @@ func (f *File) readFile(path string) *[]byte {
 
 
 func parse(content string) *File {
-	var tl,rp,lbp,rbp,sp = 0,make([]int,0,10),make([]int,0,10),make([]int,0,10),make([]int,0,10)
+	var len,tl,rp,lbp,rbp,sp = len(content),0,make([]int,0,10),make([]int,0,10),make([]int,0,10),make([]int,0,10)
 	for pos,char := range content {
 		if char == '\n' {
 			tl += 1
@@ -145,7 +145,7 @@ func (f *File) NextCharPos(char int,pos int) int {
 }
 
 
-func (f *File) CurrentLine(pos int) (s int,e int){
+func (f *File) CurrentLine(pos int) (s int,e int) {
 
 	var arr = f.rp
 
@@ -162,10 +162,21 @@ func (f *File) CurrentLine(pos int) (s int,e int){
 }
 
 //
-func (f *File) Block(level int) (s int e int) {
+func (f *File) Block(level int) (s int ,e int) {
 	// 代码规模，不允许穿插在中间
+
+	// start position,end position
+	var sp,ep = f.lbp[level-1],f.rbp[len(f.rbp)-1]
+	fmt.Printf("%v  %v\n",sp,ep)
+
+	s,_ = f.CurrentLine(sp)
+	_,e = f.CurrentLine(ep)
+	return s,e
 }
 
-func (f * File) BlockBetweenIn(sl int ,vl int) (s int,e int) {
 
+
+// 两个Block的差
+func (f * File) Delta(sl int ,vl int) (s int,e int) {
+	return  -1,-1
 }
