@@ -148,7 +148,7 @@ func (f *File) NextCharPos(char int,pos int) int {
 func (f *File) CurrentLine(pos int) (s int,e int){
 
 	var arr = f.rp
-	
+
 	if pos > arr[len(arr)-1] {
 		panic(fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e]))
 	}
@@ -159,4 +159,13 @@ func (f *File) CurrentLine(pos int) (s int,e int){
 
 	s ,e = f.LastCharPos('\n',pos),f.NextCharPos('\n',pos)
 	return s,e
+}
+
+//
+func (f *File) Block(level int) (s int e int) {
+	// 代码规模，不允许穿插在中间
+}
+
+func (f * File) BlockBetweenIn(sl int ,vl int) (s int,e int) {
+
 }
