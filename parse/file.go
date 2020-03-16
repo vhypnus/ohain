@@ -113,7 +113,7 @@ func (f *File) LastCharPos(char int ,pos int) int {
 
 //大于但最临近的值
 func (f *File) NextCharPos(char int,pos int) int {
-	var arr,s,e,lpos =f.rp,0, len(f.rp)-1,-1
+	var arr,s,e,npos =f.rp,0, len(f.rp)-1,-1
 
 	if pos > arr[e] {
 		panic(fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e]))
@@ -130,15 +130,33 @@ func (f *File) NextCharPos(char int,pos int) int {
 		mv := arr[m]
 		if mv - pos > 0 {
 			e = m
-			lpos = mv
+			npos = mv
 		} else if mv - pos < 0  {
 			s = m+1
 		} else {
-			lpos = arr[m+1]
+			// 最快的找法
+			npos = arr[m+1]
 			break
 		}
 		
 	}
 
-	return lpos
+	return npos
+}
+
+
+func (f *File) CurrentLine(pos int) (s int,e int){
+
+	var arr = f.rp
+	
+	if pos > arr[len(arr)-1] {
+		panic(fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e]))
+	}
+
+	if pos < arr[0] {
+		panic(fmt.Sprintf("[%v] 小于数组 %v 最小值 [%v].\n", pos,arr,arr[s]))
+	}
+
+	s ,e = f.LastCharPos('\n',pos),f.NextCharPos('\n',pos)
+	return s,e
 }

@@ -68,6 +68,18 @@ func TestNextCharPos(t *testing.T) {
 
 }
 
+func TestCurrentLine(t *testing.T) {
+	var rp = []int{1,8,18,28,49,66,77,88}
+	var f = &File {rp:rp}
+	var s,e = f.CurrentLine(28)
+	fmt.Print(fmt.Sprintf("[%v ,%v]\n",s+1,e))
+
+	//error case:
+	s,e = f.CurrentLine(99)
+
+	s,e = f.CurrentLine(-1)
+}
+
 func TestNew(t *testing.T){
 	// var c = "hello world"
 
