@@ -23,8 +23,25 @@ func TestParse(t *testing.T) {
 func TestLastCharPos(t *testing.T) {
 	var rp = []int{1,8,18,28,49,66,77,88}
 	var f = &File {rp:rp}
-	var pos = f.LastCharPos('\n',9)
+	var pos = f.LastCharPos('\n',28)
 	fmt.Println(pos)
+
+	pos = f.LastCharPos('\n',19)
+	fmt.Println(pos)
+
+	pos = f.LastCharPos('\n',50)
+	fmt.Println(pos)
+
+	pos = f.LastCharPos('\n',49)
+	fmt.Println(pos)
+
+	//error case:
+	pos = f.LastCharPos('\n',99)
+	fmt.Println(pos)
+
+	pos = f.LastCharPos('\n',-1)
+	fmt.Println(pos)
+
 }
 
 func TestNew(t *testing.T){
