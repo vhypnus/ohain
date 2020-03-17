@@ -47,7 +47,7 @@ func (f *File) readFile(path string) *[]byte {
 
 
 func parse(content string) *File {
-	var len,tl,rp,lbp,rbp,sp = len(content),0,make([]int,0,10),make([]int,0,10),make([]int,0,10),make([]int,0,10)
+	var tl,rp,lbp,rbp,sp = 0,make([]int,0,10),make([]int,0,10),make([]int,0,10),make([]int,0,10)
 	for pos,char := range content {
 		if char == '\n' {
 			tl += 1
@@ -68,8 +68,11 @@ func parse(content string) *File {
 
 	}
 
-	//case:最后一行无回车情况
-	tl += 1
+	//最后一行
+	if content[len(content)-1] != '\n' {
+		tl += 1
+		rp = append(rp,len(content)-1)
+	}
 
 	var f *File = &File{tl:tl,rp:rp,lbp:lbp,rbp:rbp,sp:sp}
 	return f
@@ -82,12 +85,14 @@ func (f *File) LastCharPos(char int ,pos int) int {
 	
 	var arr,s,e,lpos =f.rp,0, len(f.rp)-1,-1
 
-	if pos > arr[e] {
-		panic(fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e]))
+	if pos >= arr[e] {
+		fmt.Print((fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e])))
+		return arr[e]
 	}
 
-	if pos < arr[s] {
-		panic(fmt.Sprintf("[%v] 小于数组 %v 最小值 [%v].\n", pos,arr,arr[s]))
+	if pos <= arr[s] {
+		fmt.Print((fmt.Sprintf("[%v] 小于数组 %v 最小值 [%v].\n", pos,arr,arr[s])))
+		return arr[s]
 	}
 
 
@@ -115,12 +120,14 @@ func (f *File) LastCharPos(char int ,pos int) int {
 func (f *File) NextCharPos(char int,pos int) int {
 	var arr,s,e,npos =f.rp,0, len(f.rp)-1,-1
 
-	if pos > arr[e] {
-		panic(fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e]))
+	if pos >= arr[e] {
+		fmt.Print((fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e])))
+		return arr[e]
 	}
 
-	if pos < arr[s] {
-		panic(fmt.Sprintf("[%v] 小于数组 %v 最小值 [%v].\n", pos,arr,arr[s]))
+	if pos <= arr[s] {
+		fmt.Print((fmt.Sprintf("[%v] 小于数组 %v 最小值 [%v].\n", pos,arr,arr[s])))
+		return arr[s]
 	}
 
 
@@ -166,7 +173,7 @@ func (f *File) Block(level int) (s int ,e int) {
 	// 代码规模，不允许穿插在中间
 
 	// start position,end position
-	var sp,ep = f.lbp[level-1],f.rbp[len(f.rbp)-1]
+	var sp,ep = f.lbp[level-1],f.rbp[len(f.rbp)-level]
 	fmt.Printf("%v  %v\n",sp,ep)
 
 	s,_ = f.CurrentLine(sp)

@@ -97,6 +97,9 @@ func TestBlock(t *testing.T) {
 	var s,e = f.Block(1);
 	fmt.Print(fmt.Sprintf("[%v ,%v]\n",s,e))
 
+	s,e = f.Block(2);
+	fmt.Print(fmt.Sprintf("[%v ,%v]\n",s,e))
+
 }
 
 func TestNew(t *testing.T){

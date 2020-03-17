@@ -3,7 +3,7 @@ package main
 import ("fmt")
 
 func main(){
-	var i = 30000
-	fmt.Println(i)
+	var s = "hello"
+	fmt.Println(s[1:100])
 
 }
