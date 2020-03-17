@@ -18,11 +18,8 @@ type File struct {
 	//换行位置
 	rp []int
 
-	//左括号位置
-	lbp []int
-
-	//右括号位置
-	rbp []int
+	//代码块
+	blocks [][3]int
 
 	//分号
 	sp []int
@@ -47,19 +44,23 @@ func (f *File) readFile(path string) *[]byte {
 
 
 func parse(content string) *File {
-	var tl,rp,lbp,rbp,sp = 0,make([]int,0,10),make([]int,0,10),make([]int,0,10),make([]int,0,10)
+	var tl,rp,lbp,sp,blocks = 0,make([]int,0,10),make([]int,0,10),make([]int,0,10),make([][3]int,0,10)
 	for pos,char := range content {
 		if char == '\n' {
 			tl += 1
 			rp = append(rp,pos)
 		}
 
+
+		//
 		if char == '{' {
 			lbp = append(lbp,pos)
 		}
 
 		if char == '}' {
-			rbp = append(rbp,pos)
+			var item = [3]int{len(lbp),lbp[len(lbp)-1],pos}
+			lbp = append(lbp[:len(lbp)-1])
+			blocks = append(blocks,item)
 		}
 
 		if char == ';' {
@@ -74,7 +75,7 @@ func parse(content string) *File {
 		rp = append(rp,len(content)-1)
 	}
 
-	var f *File = &File{tl:tl,rp:rp,lbp:lbp,rbp:rbp,sp:sp}
+	var f *File = &File{tl:tl,rp:rp,sp:sp,blocks:blocks}
 	return f
 }
 
@@ -154,36 +155,19 @@ func (f *File) NextCharPos(char int,pos int) int {
 
 func (f *File) CurrentLine(pos int) (s int,e int) {
 
-	var arr = f.rp
-
-	if pos > arr[len(arr)-1] {
-		panic(fmt.Sprintf("[%v] 大于数组 %v 最大值 [%v].\n",pos,arr ,arr[e]))
-	}
-
-	if pos < arr[0] {
-		panic(fmt.Sprintf("[%v] 小于数组 %v 最小值 [%v].\n", pos,arr,arr[s]))
-	}
-
 	s ,e = f.LastCharPos('\n',pos),f.NextCharPos('\n',pos)
 	return s,e
 }
 
 //
-func (f *File) Block(level int) (s int ,e int) {
-	// 代码规模，不允许穿插在中间
-
-	// start position,end position
-	var sp,ep = f.lbp[level-1],f.rbp[len(f.rbp)-level]
-	fmt.Printf("%v  %v\n",sp,ep)
-
-	s,_ = f.CurrentLine(sp)
-	_,e = f.CurrentLine(ep)
-	return s,e
+func (f *File) Block(level int) [][]int {
+	
+	return nil
 }
 
 
 
 // 两个Block的差
-func (f * File) Delta(sl int ,vl int) (s int,e int) {
+func (f * File) BlockDelta(level int ,olevel int) (s int,e int) {
 	return  -1,-1
 }

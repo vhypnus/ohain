@@ -94,11 +94,11 @@ func TestBlock(t *testing.T) {
 	fmt.Println(f)
 	
 
-	var s,e = f.Block(1);
-	fmt.Print(fmt.Sprintf("[%v ,%v]\n",s,e))
+	var blocks = f.Block(1);
+	fmt.Print(fmt.Sprintf("blocks %v\n",blocks))
 
-	s,e = f.Block(2);
-	fmt.Print(fmt.Sprintf("[%v ,%v]\n",s,e))
+	blocks = f.Block(2);
+	fmt.Print(fmt.Sprintf("blocks %v\n",blocks))
 
 }
 
