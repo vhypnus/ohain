@@ -155,8 +155,8 @@ func (f *File) NextCharPos(char int,pos int) int {
 
 
 func (f *File) LastLine(pos int) (s int,e int){
-	s = f.LastCharPos('\n',pos)
-	e = f.LastCharPos('\n',s)
+	e = f.LastCharPos('\n',pos)
+	s = f.LastCharPos('\n',e)
 	return s,e
 }
 
@@ -188,14 +188,14 @@ func (f *File) Block(level int) [][3]int {
 
 //获取变量
 func (f *File) Variable(block [][3]int) [][3]string {
-	var s,e = block[1],block[2]
-	var rp = f.rp
-
+	// var s,e = block[1],block[2]
+	// var rp = f.rp
+	return nil
 }
 
 //获取函数 function name,input,output
 func (f *File) Function(block [][3]int) [][3]string {
-
+	return nil
 }
 
 

@@ -3,6 +3,7 @@ package file
 import (
 	"testing"
 	"fmt"
+	"github.com/vhypnus/ohain/assert"
 )
 
 func TestParse(t *testing.T) {
@@ -80,9 +81,22 @@ func TestCurrentLine(t *testing.T) {
 	s,e = f.CurrentLine(-1)
 }
 
+func TestLastLine(t *testing.T) {
+	var rp = []int{1,8,18,28,49,66,77,88}
+	var f = &File {rp:rp}
+	var s,e = f.LastLine(28)
+	assert.Assert(8,s)
+	assert.Assert(18,e)
+}
+
 
 func TestNextLine(t *testing.T) {
-	
+
+	var rp = []int{1,8,18,28,49,66,77,88}
+	var f = &File {rp:rp}
+	var s,e = f.NextLine(28)
+	assert.Assert(49,s)
+	assert.Assert(66,e)
 }
 
 func TestBlock(t *testing.T) {
