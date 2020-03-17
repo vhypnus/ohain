@@ -3,13 +3,18 @@ package main
 import (
 	"log"
 	"fmt"
+	"strings"
 )
 
 func main(){
 	
-	var s = []int{1,2,3}
-	s = append(s[:len(s)-1])
+
+}
+
+func trimspace(){
+	var s = "  hello world   "
 	fmt.Println(s)
+	fmt.Println(strings.TrimSpace(s))
 }
 
 

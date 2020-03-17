@@ -80,6 +80,11 @@ func TestCurrentLine(t *testing.T) {
 	s,e = f.CurrentLine(-1)
 }
 
+
+func TestNextLine(t *testing.T) {
+	
+}
+
 func TestBlock(t *testing.T) {
 	var content = `package helloworld;
 

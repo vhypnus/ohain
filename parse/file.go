@@ -154,9 +154,21 @@ func (f *File) NextCharPos(char int,pos int) int {
 }
 
 
+func (f *File) LastLine(pos int) (s int,e int){
+	s = f.LastCharPos('\n',pos)
+	e = f.LastCharPos('\n',s)
+	return s,e
+}
+
 func (f *File) CurrentLine(pos int) (s int,e int) {
 
 	s ,e = f.LastCharPos('\n',pos),f.NextCharPos('\n',pos)
+	return s,e
+}
+
+func (f *File) NextLine(pos int) (s int,e int) {
+	s = f.NextCharPos('\n',pos)
+	e = f.NextCharPos('\n',s)
 	return s,e
 }
 
@@ -174,8 +186,20 @@ func (f *File) Block(level int) [][3]int {
 }
 
 
+//获取变量
+func (f *File) Variable(block [][3]int) [][3]string {
+	var s,e = block[1],block[2]
+	var rp = f.rp
+
+}
+
+//获取函数 function name,input,output
+func (f *File) Function(block [][3]int) [][3]string {
+
+}
+
 
 // 两个Block的差
-func (f * File) BlockDelta(level int ,olevel int) (s int,e int) {
+func (f * File) BlockTextExceptSub(level int ,olevel int) (s int,e int) {
 	return  -1,-1
 }
