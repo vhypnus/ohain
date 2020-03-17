@@ -89,6 +89,10 @@ func TestBlock(t *testing.T) {
        		System.out.println("hello world") ;
     	}
 
+    	public void test(){
+
+    	}
+
 	}`
 	var f = parse(content)
 	fmt.Println(f)

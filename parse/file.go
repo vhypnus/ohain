@@ -3,6 +3,7 @@ package file
 import (
 	"io/ioutil"
 	"fmt"
+	"log"
 )
 
 type File struct {
@@ -160,9 +161,16 @@ func (f *File) CurrentLine(pos int) (s int,e int) {
 }
 
 //
-func (f *File) Block(level int) [][]int {
+func (f *File) Block(level int) [][3]int {
 	
-	return nil
+	var blocks = make([][3]int,0,2)
+	for _ ,block := range f.blocks {
+		log.Printf("%v \n",block)
+		if block[0] == level {
+			blocks = append(blocks,block)
+		} 
+	}
+	return blocks
 }
 
 
