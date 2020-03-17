@@ -125,6 +125,34 @@ func TestBlock(t *testing.T) {
 
 }
 
+
+func TestVariable(t *testing.T) {
+
+	// case:没有包含子结构
+	var content = `package helloworld;
+
+	public class HelloWorld {
+
+		// 名字
+    	private String name ;
+
+    	private int age ;
+
+    	private Date birth ;
+
+	}`
+
+	var f = parse(content)
+
+	var blocks = f.Block(1) ;
+	fmt.Println(blocks)
+
+	var variable = f.Variable(blocks[0]) ;
+	fmt.Println(variable)
+
+	// 包含子结构(block)
+}
+
 func TestNew(t *testing.T){
 	// var c = "hello world"
 

@@ -78,7 +78,7 @@ func parse(content string) *File {
 		rp = append(rp,len(content)-1)
 	}
 
-	var f *File = &File{tl:tl,rp:rp,sp:sp,blocks:blocks}
+	var f *File = &File{tl:tl,c:content,rp:rp,sp:sp,blocks:blocks}
 	return f
 }
 
@@ -190,20 +190,29 @@ func (f *File) Block(level int) [][3]int {
 
 //获取变量
 //case:暂不考虑跨行情况
-func (f *File) Variable(block [][3]int) [][2]string {
+func (f *File) Variable(block [3]int) [][2]string {
 	var s,e = block[1],block[2]
 	var variables [][2]string = make([][2]string,0,10)
 	var item = [2]string{}
 
 	for ls,le := f.NextLine(s) ;le < e ;{
-		var line = f.content[ls+1:le]
-		var sub = strings.TrimSpace(line)[:2]
-		if sub == "//" || sub == "/*" {
-			item[0] = line
-		} else {
-			item[1] = line
-			variables = append(variables,item)
+		var line = strings.TrimSpace(f.c[ls+1:le])
+
+		if line != "" {
+			var sub = line[:2]
+			if sub == "//" || sub == "/*" {
+				item[0] = line
+			} else {
+				item[1] = line
+				variables = append(variables,item)
+
+				//reset
+				item[0] = ""
+				item[1] = ""
+			}
 		}
+		
+		//reset
 		ls,le = f.NextLine(ls)
 	}
 	return variables
