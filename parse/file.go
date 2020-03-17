@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"fmt"
 	"log"
+	"strings"
 )
 
 type File struct {
@@ -53,7 +54,7 @@ func parse(content string) *File {
 		}
 
 
-		//
+		// block parse start
 		if char == '{' {
 			lbp = append(lbp,pos)
 		}
@@ -63,6 +64,7 @@ func parse(content string) *File {
 			lbp = append(lbp[:len(lbp)-1])
 			blocks = append(blocks,item)
 		}
+		// block parse end
 
 		if char == ';' {
 			sp = append(sp,pos)
@@ -187,10 +189,24 @@ func (f *File) Block(level int) [][3]int {
 
 
 //获取变量
-func (f *File) Variable(block [][3]int) [][3]string {
-	// var s,e = block[1],block[2]
-	// var rp = f.rp
-	return nil
+//case:暂不考虑跨行情况
+func (f *File) Variable(block [][3]int) [][2]string {
+	var s,e = block[1],block[2]
+	var variables [][2]string = make([][2]string,0,10)
+	var item = [2]string{}
+
+	for ls,le := f.NextLine(s) ;le < e ;{
+		var line = f.content[ls+1:le]
+		var sub = strings.TrimSpace(line)[:2]
+		if sub == "//" || sub == "/*" {
+			item[0] = line
+		} else {
+			item[1] = line
+			variables = append(variables,item)
+		}
+		ls,le = f.NextLine(ls)
+	}
+	return variables
 }
 
 //获取函数 function name,input,output
@@ -200,6 +216,6 @@ func (f *File) Function(block [][3]int) [][3]string {
 
 
 // 两个Block的差
-func (f * File) BlockTextExceptSub(level int ,olevel int) (s int,e int) {
+func (f * File) BlockDelta(level int ,olevel int) (s int,e int) {
 	return  -1,-1
 }
