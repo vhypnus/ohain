@@ -149,6 +149,11 @@ func TestVariable(t *testing.T) {
     	private String hometown ;
 
 
+    	public void set{
+    		
+    	}
+
+
 	}`
 
 	var f = parse(content)

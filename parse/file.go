@@ -189,12 +189,11 @@ func (f *File) Block(level int) [][3]int {
 
 
 //获取变量
-//case:暂不考虑跨行情况
 func (f *File) Variable(block [3]int) [][2]string {
 	var s,e = block[1],block[2]
 	log.Printf("s,e [%v,%v] \n",s,e)
 	var variables [][2]string = make([][2]string,0,10)
-	var item,noteflag,codeflag = [2]string{},false,false
+	var item,noteflag,codeflag,ignoreflag = [2]string{},false,false,false
 
 	for ls,le := f.NextLine(s) ;le < e ;{
 		
@@ -202,35 +201,46 @@ func (f *File) Variable(block [3]int) [][2]string {
 
 
 		if line != "" {
-			var head,tail = line[:2],line[len(line)-2:]
-			log.Printf("head,tail [%v,%v] \n",head,tail)
-
-			//note case: 1.单个//  2.多个//  3./*xxxx*/
-			if head == "//" || head == "/*" {
-				noteflag = true
-			} 
-
-			if !noteflag {
-				codeflag = true
-			} 
-
-			if noteflag {
-				item[0] += line
+			if !ignoreflag && line[len(line)-1:] == "{" {
+				ignoreflag = true 
 			}
 
-			if head == "//" || tail == "*/" {
-				noteflag = false 
-				
+			if !ignoreflag {
+				var head,tail = line[:2],line[len(line)-2:]
+				log.Printf("head,tail [%v,%v] \n",head,tail)
+
+				//note case: 1.单个//  2.多个//  3./*xxxx*/
+				if head == "//" || head == "/*" {
+					noteflag = true
+				} 
+
+				if !noteflag {
+					codeflag = true
+				} 
+
+				if noteflag {
+					item[0] += line
+				}
+
+				if head == "//" || tail == "*/" {
+					noteflag = false 
+					
+				}
+
+				if codeflag {
+					log.Printf("ls,le [%v,%v] \n",ls,le)
+					item[1] = line
+					variables = append(variables,item)
+					//reset
+					//reset
+					item[0],item[1],noteflag,codeflag = "","",false,false
+				}
 			}
 
-			if codeflag {
-				log.Printf("ls,le [%v,%v] \n",ls,le)
-				item[1] = line
-				variables = append(variables,item)
-				//reset
-				//reset
-				item[0],item[1],noteflag,codeflag = "","",false,false
+			if line[len(line)-1:] == "}" {
+				ignoreflag = false 
 			}
+			
 		}
 		
 		//reset
