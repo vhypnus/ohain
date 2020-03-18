@@ -1,4 +1,4 @@
-module ohain/parse
+module ohain/base
 
 go 1.14
 

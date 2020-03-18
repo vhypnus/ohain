@@ -1,4 +1,4 @@
-package file
+package base
 
 import (
 	"testing"
@@ -166,7 +166,28 @@ func TestVariable(t *testing.T) {
 	fmt.Println(len(variable))
 	fmt.Println(variable)
 
-	// 包含子结构(block)
+	// 接口
+	content = `package helloworld;
+
+	public interface HelloWorld {
+
+		// 你好
+		public String hello() ;
+
+		// 请说人话
+		public String say();
+
+
+	}`
+
+	f = parse(content)
+
+	blocks = f.Block(1) ;
+
+	variable = f.Variable(blocks[0]) ;
+
+	fmt.Println(len(variable))
+	fmt.Println(variable)
 }
 
 func TestNew(t *testing.T){

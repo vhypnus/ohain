@@ -1,4 +1,4 @@
-package file
+package base
 
 import (
 	"io/ioutil"
@@ -199,15 +199,15 @@ func (f *File) Variable(block [3]int) [][2]string {
 		
 		var line = strings.TrimSpace(f.c[ls+1:le])
 
-
 		if line != "" {
 			if !ignoreflag && line[len(line)-1:] == "{" {
 				ignoreflag = true 
 			}
 
+			//todo: 如果有注解的情况
+
 			if !ignoreflag {
 				var head,tail = line[:2],line[len(line)-2:]
-				log.Printf("head,tail [%v,%v] \n",head,tail)
 
 				//note case: 1.单个//  2.多个//  3./*xxxx*/
 				if head == "//" || head == "/*" {
@@ -228,7 +228,6 @@ func (f *File) Variable(block [3]int) [][2]string {
 				}
 
 				if codeflag {
-					log.Printf("ls,le [%v,%v] \n",ls,le)
 					item[1] = line
 					variables = append(variables,item)
 					//reset
@@ -247,15 +246,4 @@ func (f *File) Variable(block [3]int) [][2]string {
 		ls,le = f.NextLine(ls)
 	}
 	return variables
-}
-
-//获取函数 function name,input,output
-func (f *File) Function(block [][3]int) [][3]string {
-	return nil
-}
-
-
-// 两个Block的差
-func (f * File) BlockDelta(level int ,olevel int) (s int,e int) {
-	return  -1,-1
 }
