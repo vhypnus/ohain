@@ -192,23 +192,44 @@ func (f *File) Block(level int) [][3]int {
 //case:暂不考虑跨行情况
 func (f *File) Variable(block [3]int) [][2]string {
 	var s,e = block[1],block[2]
+	log.Printf("s,e [%v,%v] \n",s,e)
 	var variables [][2]string = make([][2]string,0,10)
-	var item = [2]string{}
+	var item,noteflag,codeflag = [2]string{},false,false
 
 	for ls,le := f.NextLine(s) ;le < e ;{
+		
 		var line = strings.TrimSpace(f.c[ls+1:le])
 
+
 		if line != "" {
-			var sub = line[:2]
-			if sub == "//" || sub == "/*" {
-				item[0] = line
-			} else {
+			var head,tail = line[:2],line[len(line)-2:]
+			log.Printf("head,tail [%v,%v] \n",head,tail)
+
+			//note case: 1.单个//  2.多个//  3./*xxxx*/
+			if head == "//" || head == "/*" {
+				noteflag = true
+			} 
+
+			if !noteflag {
+				codeflag = true
+			} 
+
+			if noteflag {
+				item[0] += line
+			}
+
+			if head == "//" || tail == "*/" {
+				noteflag = false 
+				
+			}
+
+			if codeflag {
+				log.Printf("ls,le [%v,%v] \n",ls,le)
 				item[1] = line
 				variables = append(variables,item)
-
 				//reset
-				item[0] = ""
-				item[1] = ""
+				//reset
+				item[0],item[1],noteflag,codeflag = "","",false,false
 			}
 		}
 		

@@ -136,9 +136,18 @@ func TestVariable(t *testing.T) {
 		// 名字
     	private String name ;
 
+    	// 年龄
+    	// 年龄
     	private int age ;
 
+    	/*生日*/
     	private Date birth ;
+
+    	/* 家乡
+
+    	家乡*/
+    	private String hometown ;
+
 
 	}`
 
@@ -148,6 +157,8 @@ func TestVariable(t *testing.T) {
 	fmt.Println(blocks)
 
 	var variable = f.Variable(blocks[0]) ;
+
+	fmt.Println(len(variable))
 	fmt.Println(variable)
 
 	// 包含子结构(block)
