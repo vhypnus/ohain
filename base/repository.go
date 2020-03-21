@@ -1,5 +1,9 @@
 package base
 
+import (
+	"io/ioutil"
+)
+
 const (
 	ROOT = "/data"
 
@@ -45,7 +49,14 @@ func (r *Repository) diff(src string,target string) {
 
 
 func (r *Repository) api(branch string) string {
+	var fileinfos,err = ioutil.ReadDir(r.apipath)
+	if err != nil{
+		//todo error
+	}
 
+	for _, file := range fileifos {
+		
+	}
 }
 
 func (r *Repository) model(branch string) string {
