@@ -9,7 +9,7 @@ import (
 
 
 
-func (r *Project) Sync(projectName string,srcCommit string,targetCommit string){
+func (r *Project) Sync(projectName string){
 
 	// todo if not exist ,git clone
 	osName := runtime.GOOS
@@ -21,8 +21,10 @@ func (r *Project) Sync(projectName string,srcCommit string,targetCommit string){
 	}
 
 	log.Printf("osName %s scriptpath %s",osName,scriptpath)
-	// warning 路径不能带有空格
-	var cmd *exec.Cmd = exec.Command(scriptpath,"http://git.51caocao.cn/java-newer/driving-order","") 
+	
+	// todo 路径计算
+	var path = ""
+	var cmd *exec.Cmd = exec.Command(scriptpath,projectName,"") 
 	parserCmd(cmd)
 }
 
