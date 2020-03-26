@@ -1,11 +1,6 @@
 package project
 
-import (
-	"os/exec"
-	"log"
-	"runtime"
-	"bytes"
-)
+
 
 const (
 	ROOT = "/data"
