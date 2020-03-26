@@ -4,26 +4,22 @@ import (
 	"log"
 	"fmt"
 	"strings"
+    "ohain/util"
 )
 
 func main(){
-	s := "abc你好"
-    r := "123你好"
-    fmt.Println("len(s)=", len([]byte(s)), "len(r)=", len([]rune(r))) //len(s)= 9 len(r)= 5
+	
  
-    // for k, v := range r {
-    //     fmt.Println("k=", k, "v=", v)
-    // }
- 
-    // for k, v := range []rune(r) {
-    //     fmt.Println("k2=", k, "v2=", v)
-    // }
+    util.Assert(1,1)
 }
 
 func trimspace(){
 	var s = "  hello world   "
 	fmt.Println(s)
 	fmt.Println(strings.TrimSpace(s))
+    s := "abc你好"
+    r := "123你好"
+    fmt.Println("len(s)=", len([]byte(s)), "len(r)=", len([]rune(r))) //len(s)= 9 len(r)= 5
 }
 
 
