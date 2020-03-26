@@ -1,0 +1,3 @@
+github.com/vhypnus/ohain v0.0.0-20200321093600-a55b1e96ad8e h1:lbvMSKYDE1KMWGaT54HSVdQW+1SyHCW7ySXIpGjvKgQ=
+github.com/vhypnus/ohain/assert v0.0.0-20200321093600-a55b1e96ad8e h1:T9OnQtdXJD3ajN4cVQf2f+AZlgV0U5quy2Cf7yvW2ac=
+github.com/vhypnus/ohain/assert v0.0.0-20200321093600-a55b1e96ad8e/go.mod h1:hR4vl2ohV5zXewf6I5EiHfM8FMTuMNRTq5fXUmZ+Ypg=
